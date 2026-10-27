@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: diet-share-server
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/dietshare}
+    username: ${DATABASE_USERNAME:dietshare}
+    password: ${DATABASE_PASSWORD:dietshare}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:5}
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      enabled: false
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+app:
+  jwt:
+    # 32 bytes or more. Render generates one through render.yaml.
+    secret: ${JWT_SECRET:local-dev-secret-change-me-0123456789}
+    ttl-days: 30
+  auth:
+    # POST /auth/dev lets testers log in without Kakao. Keep it off in production.
+    dev-login-enabled: ${DEV_LOGIN_ENABLED:false}
+  quota:
+    daily-limit: ${QUOTA_DAILY_LIMIT:10}
+  worker:
+    enabled: ${WORKER_ENABLED:true}
+    poll-delay-ms: ${WORKER_POLL_DELAY_MS:2000}
+    batch-size: 5
+    max-attempts: 3
+    stuck-after-minutes: 5
+    keep-done-days: 7
+  storage:
+    # Empty endpoint = in-memory storage (tests and quick local runs only).
+    endpoint: ${STORAGE_ENDPOINT:}
+    region: ${STORAGE_REGION:auto}
+    bucket: ${STORAGE_BUCKET:diet-share}
+    access-key: ${STORAGE_ACCESS_KEY:}
+    secret-key: ${STORAGE_SECRET_KEY:}
+    upload-url-minutes: 5
+    view-url-minutes: 60
+  ai:
+    # stub | anthropic
+    provider: ${AI_PROVIDER:stub}
+    api-key: ${AI_API_KEY:}
+    model: ${AI_MODEL:}
+  room:
+    max-members: 5
+    join-attempts-per-minute: 5
