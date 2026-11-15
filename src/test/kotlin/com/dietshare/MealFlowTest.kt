@@ -40,7 +40,7 @@ class MealFlowTest : IntegrationTestSupport() {
     }
 
     @Test
-    fun `upload, analyse and share: visible in the room only after analysis`() {
+    fun `upload, analyse and share - visible in the room only after analysis`() {
         val me = newUser("me")
         val friend = newUser("friend")
         val room = roomService.create(me, "헬스 메이트")
